@@ -1,0 +1,40 @@
+#include <stdio.h>
+#define MAX 10
+
+int w[MAX], p[MAX], n;
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int knap(int i, int m) {
+    if (i == n) {
+        return (w[i] > m) ? 0 : p[i];
+    }
+    if (w[i] > m) {
+        return knap(i + 1, m);
+    }
+    return max(knap(i + 1, m), knap(i + 1, m - w[i]) + p[i]);
+}
+
+int main() {
+    int m, i, max_profit;
+    
+    printf("Enter the number of objects: ");
+    scanf("%d", &n);
+    
+    printf("Enter the knapsack capacity: ");
+    scanf("%d", &m);
+    
+    printf("Enter profit followed by weight for each object:\n");
+    for (i = 0; i < n; i++) {
+        printf("Object %d: ", i + 1);
+        scanf("%d %d", &p[i], &w[i]);
+    }
+    
+    max_profit = knap(0, m); // Start with the first object (index 0)
+    
+    printf("\nMax profit = %d\n", max_profit);
+    
+    return 0;
+}
